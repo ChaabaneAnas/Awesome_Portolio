@@ -20,24 +20,30 @@ const SearchBar = ({ data, placeHolder }: Props) => {
   };
 
   return (
-    <div>
-      <input
-        placeholder={placeHolder}
-        className='search'
-        type='text'
-        value={searchQuery}
-        onChange={handleSearchQuery}
-      />
-      {searchQuery.length > 0 && (
-        <ul className='sugsession'>
-          {filterSearch().map((item) => (
-            <li key={item}>
-              <a href={item}>{item}</a>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <form className='searchContainer'>
+      <div>
+        
+        <input
+          placeholder={placeHolder}
+          className='search'
+          type='text'
+          value={searchQuery}
+          onChange={handleSearchQuery}
+        />
+        {searchQuery.length > 0 && (
+          <ul className='sugsession'>
+            {filterSearch().map((item) => (
+              <li key={item}>
+                <a href={item}>{item}</a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+      <button className='submitButton' type='submit'>
+        Search
+      </button>
+    </form>
   );
 };
 
