@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { Button, TextField } from '@mui/material';
 import styles from './SearchBar.module.css';
+import { bgcolor } from '@mui/system';
 
 interface Props {
   data: string[];
@@ -22,14 +24,14 @@ const SearchBar = ({ data, placeHolder }: Props) => {
   return (
     <form className='searchContainer'>
       <div>
-        
-        <input
-          placeholder={placeHolder}
-          className='search'
-          type='text'
+        <TextField
           value={searchQuery}
           onChange={handleSearchQuery}
+          id='outlined-basic'
+          label={placeHolder}
+          variant='outlined'
         />
+
         {searchQuery.length > 0 && (
           <ul className='sugsession'>
             {filterSearch().map((item) => (
@@ -40,9 +42,9 @@ const SearchBar = ({ data, placeHolder }: Props) => {
           </ul>
         )}
       </div>
-      <button className='submitButton' type='submit'>
+      <Button color='secondary' variant='contained'>
         Search
-      </button>
+      </Button>
     </form>
   );
 };
