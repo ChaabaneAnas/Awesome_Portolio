@@ -5,5 +5,10 @@
 
 .flex {
   display: flex;
-  
+
+}
+
+.active {
+  background-color: 00bd95;
+  color: white;
 }
