@@ -22,7 +22,7 @@ const SearchBar = ({ data, placeHolder }: Props) => {
   };
 
   return (
-    <form className='searchContainer'>
+    <form className={`${styles.flex} searchContiner`}>
       <div>
         <TextField
           value={searchQuery}

@@ -1,4 +1,9 @@
-.searchContainer{
+.searchContainer {
+  display: flex;
+
+}
+
+.flex {
   display: flex;
   
 }
