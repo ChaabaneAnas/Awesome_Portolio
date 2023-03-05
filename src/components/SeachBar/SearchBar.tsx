@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import styles from './SearchBar.module.css';
 import { bgcolor } from '@mui/system';
@@ -13,6 +13,7 @@ const SearchBar = ({ data, placeHolder }: Props) => {
   const [showSuggestions, setshowSuggestions] = useState<Boolean>(false);
   const [activeIndex, setActiveindex] = useState<number>(0);
 
+  console.log('render');
   function filterSearch(): string[] {
     return data.filter((elem) =>
       elem.toLowerCase().includes(searchQuery.toLowerCase())
@@ -20,33 +21,38 @@ const SearchBar = ({ data, placeHolder }: Props) => {
   }
 
   function handleSearchQueryOrKeyDown(e: any): void {
-    console.log(e.type);
-    
-    if (e.type === 'change') {
-      console.log('this is change');
+    if (
+      e.type === 'keydown' &&
+      e.code === 'Tab' &&
+      showSuggestions &&
+      filterSearch().length > 0
+    ) {
+      const newValue = filterSearch()[activeIndex];
+      e.preventDefault();
+      setTimeout(() => {
+        setSeachQuery(newValue);
+        setshowSuggestions(false);
+      }, 0);
+    }
+    if (
+      e.type === 'keydown' &&
+      e.code === 'ArrowUp' &&
+      activeIndex > 0 &&
+      showSuggestions
+    ) {
+      setActiveindex(activeIndex - 1);
+      ('arroup');
+    }
+    if (
+      e.type === 'keydown' &&
+      e.code === 'ArrowDown' &&
+      activeIndex < filterSearch().length &&
+      showSuggestions
+    ) {
+      setActiveindex(activeIndex + 1);
+    } else {
       setSeachQuery(e.target.value);
       setshowSuggestions(true);
-    }
-
-    if (e.type === 'keydown') {
-      const { code } = e;
-      console.log(code);
-      e.preventDefault();
-
-      if (code === 'Tab' && showSuggestions && filterSearch().length > 0) {
-        setSeachQuery(filterSearch()[activeIndex]);
-        setshowSuggestions(false);
-      }
-
-      if (code === 'ArrowUp' && activeIndex > 0) {
-        setActiveindex(activeIndex + 1);
-        console.log('this is ArrowUp');
-      }
-
-      if (code === 'ArrowDown' && activeIndex < filterSearch().length) {
-        setActiveindex(activeIndex - 1);
-        console.log('this is ArrowDown');
-      }
     }
   }
 
@@ -60,10 +66,8 @@ const SearchBar = ({ data, placeHolder }: Props) => {
   }
 
   const renderSuggestions = () => {
-    if (!showSuggestions) return null;
-
     return (
-      <ul>
+      <ul className={styles.suggsestions}>
         {filterSearch().map((elem, index) => (
           <li
             key={elem}
@@ -79,7 +83,7 @@ const SearchBar = ({ data, placeHolder }: Props) => {
 
   return (
     <form className={`${styles.flex} searchContiner`}>
-      <div>
+      <div className={styles.inputs}>
         <TextField
           value={searchQuery}
           onChange={handleSearchQueryOrKeyDown}
@@ -88,7 +92,7 @@ const SearchBar = ({ data, placeHolder }: Props) => {
           label={placeHolder}
           variant='outlined'
         />
-        {renderSuggestions()}
+        {showSuggestions && searchQuery.length > 0 && renderSuggestions()}
       </div>
       <Button color='secondary' variant='contained'>
         Search

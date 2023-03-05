@@ -9,6 +9,15 @@
 }
 
 .active {
-  background-color: 00bd95;
+  background-color: #00bd95;
   color: white;
 }
+
+/* 
+.suggsestions {
+  position: absolute;
+}
+
+.inputs {
+  position: relative;
+} */
